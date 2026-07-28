@@ -15,6 +15,7 @@ manifest:
       path: modules/zmk-keyboards-totem
     - name: zmk-dongle-display
       remote: englmaxi
-      revision: main
+      # This specific revision locks it to the last version compatible with LVGL 8.3
+      revision: c1afc409cfb1b1388046bbf69ebdc52b9049ddc7
   self:
     path: config
