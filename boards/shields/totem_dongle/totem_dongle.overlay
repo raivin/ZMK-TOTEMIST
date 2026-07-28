@@ -1,6 +1,7 @@
 / {
     chosen {
         zmk,kscan = &mock_kscan;
+        zephyr,display = &oled;
     };
 
     mock_kscan: mock_kscan_0 {
@@ -11,7 +12,23 @@
     };
 };
 
-/* Enable the I2C bus for the Seeed XIAO BLE to communicate with the OLED */
+/* Enable the I2C bus and define the OLED hardware */
 &xiao_i2c {
     status = "okay";
+    clock-frequency = <I2C_BITRATE_FAST>;
+
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;
+        width = <128>;
+        height = <64>;
+        segment-offset = <0>;
+        page-offset = <0>;
+        display-offset = <0>;
+        multiplex-ratio = <63>;
+        segment-remap;
+        com-invdir;
+        inversion-on;
+        prechargep = <0x22>;
+    };
 };
