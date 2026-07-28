@@ -12,17 +12,17 @@
     };
 };
 
-/* Enable the I2C bus and define the OLED hardware */
+/* Enable the I2C bus and define your specific SH1106 OLED hardware */
 &xiao_i2c {
     status = "okay";
     clock-frequency = <I2C_BITRATE_FAST>;
 
-    oled: ssd1306@3c {
-        compatible = "solomon,ssd1306fb";
+    oled: sh1106@3c {
+        compatible = "sinowealth,sh1106";
         reg = <0x3c>;
-        width = <128>;
+        width = <129>;
         height = <64>;
-        segment-offset = <0>;
+        segment-offset = <1>;
         page-offset = <0>;
         display-offset = <0>;
         multiplex-ratio = <63>;
