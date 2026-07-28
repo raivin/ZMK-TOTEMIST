@@ -12,11 +12,13 @@
     };
 };
 
-/* Enable the I2C bus and define your specific SH1106 OLED hardware */
-&xiao_i2c {
+/* Enable the I2C0 bus exactly as wired for your hardware */
+&i2c0 {
     status = "okay";
-    clock-frequency = <I2C_BITRATE_FAST>;
-
+    compatible = "nordic,nrf-twi";
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
+    
     oled: sh1106@3c {
         compatible = "sinowealth,sh1106";
         reg = <0x3c>;
