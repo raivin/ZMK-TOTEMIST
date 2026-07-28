@@ -19,9 +19,9 @@
 #
 ---
 include:
-  # 1. The Dongle (Central) with Englmaxi's display and ZMK Studio
+  # 1. The Dongle (Central) using the left half as the base layout
   - board: seeeduino_xiao_ble
-    shield: totem_dongle dongle_display
+    shield: totem_left totem_dongle dongle_display
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y  
 
