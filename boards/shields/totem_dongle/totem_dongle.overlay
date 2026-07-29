@@ -1,7 +1,6 @@
 / {
     chosen {
         zmk,kscan = &mock_kscan;
-        zephyr,display = &oled;
     };
 
     mock_kscan: mock_kscan_0 {
@@ -9,26 +8,5 @@
         columns = <0>;
         rows = <0>;
         events = <0>;
-    };
-};
-
-/* Use the XIAO's built-in I2C routing, but with your SH1106 screen driver */
-&xiao_i2c {
-    status = "okay";
-    clock-frequency = <I2C_BITRATE_FAST>;
-
-    oled: sh1106@3c {
-        compatible = "sinowealth,sh1106";
-        reg = <0x3c>;
-        width = <129>;
-        height = <64>;
-        segment-offset = <1>;
-        page-offset = <0>;
-        display-offset = <0>;
-        multiplex-ratio = <63>;
-        segment-remap;
-        com-invdir;
-        inversion-on;
-        prechargep = <0x22>;
     };
 };
