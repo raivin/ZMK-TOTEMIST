@@ -1,20 +1,19 @@
+/* Import the logical layout and keymap for ZMK Studio */
+#include <boards/shields/totem/totem.dtsi>
+
 / {
     chosen {
         zmk,kscan = &mock_kscan;
         zephyr,display = &oled;
     };
 
+    /* Provide a dummy scanner so the nice!nano doesn't panic looking for keys */
     mock_kscan: mock_kscan_0 {
         compatible = "zmk,kscan-mock";
         columns = <0>;
         rows = <0>;
         events = <0>;
     };
-};
-
-/* Disable the left half's physical pin scanner so it doesn't crash the nice!nano */
-&{/kscan_0} {
-    status = "disabled";
 };
 
 /* Use the native nice!nano pins for the I2C OLED */
