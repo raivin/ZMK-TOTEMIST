@@ -34,8 +34,8 @@
     };
 };
 
-/* Use the native XIAO pins for the I2C OLED */
-&xiao_i2c {
+/* Use the native nice!nano pins for the I2C OLED */
+&pro_micro_i2c {
     status = "okay";
     clock-frequency = <I2C_BITRATE_FAST>;
 
