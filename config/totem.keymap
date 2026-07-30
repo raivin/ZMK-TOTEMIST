@@ -3,11 +3,13 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/outputs.h>
 
-#define BASE 0
-#define NAV  1
-#define SYM  2
-#define FN   3
-#define SYS  4
+#define BASE    0
+#define WIN     1
+#define NAV     2
+#define NAV_WIN 3
+#define SYM     4
+#define FN      5
+#define SYS     6
 
 // Key positions (TOTEM, 38 keys)
 //
@@ -116,6 +118,13 @@
             key-positions = <8 9>;
             require-prior-idle-ms = <100>;
         };
+
+        combo_caps_word {
+            // both "shift" home keys together = Caps Word
+            bindings = <&caps_word>;
+            key-positions = <13 16>;
+            require-prior-idle-ms = <100>;
+        };
     };
 
     macros {
@@ -139,7 +148,7 @@
         compatible = "zmk,keymap";
 
         base_layer {
-            display-name = "BASE";
+            display-name = "MAC";
             //
             //       |   Q   |   W   |   E   |   R   |   T   |   |   Y   |   U   |   I   |   O   |   P   |
             //       |-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------|
@@ -158,22 +167,58 @@
             >;
         };
 
+        win_layer {
+            display-name = "WIN";
+            //
+            // Toggle overlay (SYS layer, Y key). GUI and CTRL swap places so the
+            // pinky stays the primary-shortcut finger on both OSes. Space/BSPC
+            // holds open NAV_WIN so the edit cluster sends Ctrl-based chords.
+            //
+            //       | trans | trans | trans | trans | trans |   | trans | trans | trans | trans | trans |
+            //       |-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------|
+            //       | CTL A | ALT S | GUI D | SFT F | trans |   | trans | SFT J | GUI K | ALT L | CTL ; |
+            // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
+            // | trans | trans | trans | trans | trans | trans |   | trans | trans | trans | trans | trans | trans |
+            // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
+            //                         | trans | trans |NAVwSPC|   |NAVwBSP| trans | trans |
+            //                         |-------+-------+-------|   |-------+-------+-------|
+
+            bindings = <
+        &trans        &trans       &trans       &trans        &trans      &trans             &trans        &trans        &trans       &trans
+        &hml LCTRL A  &hml LALT S  &hml LGUI D  &hml LSHFT F  &trans      &trans             &hmr RSHFT J  &hmr RGUI K   &hmr RALT L  &hmr RCTRL SEMI
+&trans  &trans        &trans       &trans       &trans        &trans      &trans             &trans        &trans        &trans       &trans           &trans
+                                   &trans       &trans        &lt NAV_WIN SPACE    &lt NAV_WIN BSPC  &trans  &trans
+            >;
+        };
+
         nav_layer {
             display-name = "NAV";
             //
             //       |  ESC  | PREV  | PLAY  | NEXT  | MUTE  |   | none  | HOME  |  UP   |  END  | PG UP |
             //       |-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------|
-            //       |  GUI  |  ALT  |  CTL  |  SFT  | VOL + |   | none  | LEFT  | DOWN  | RIGHT | PG DN |
+            //       |SEL ALL|  ALT  |  CTL  |  SFT  | VOL + |   | none  | LEFT  | DOWN  | RIGHT | PG DN |
             // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
-            // | trans |  DEL  | none  |CAPSWRD| none  | VOL - |   | none  | none  | none  | none  | none  | PSCRN |
+            // | trans | UNDO  |  CUT  | COPY  | PASTE | VOL - |   | none  | none  | none  | none  | none  | PSCRN |
             // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
             //                         | trans | trans | trans |   |  SYS  | trans | trans |
             //                         |-------+-------+-------|   |-------+-------+-------|
 
             bindings = <
         &kp ESC    &kp C_PREV  &kp C_PP   &kp C_NEXT  &kp K_MUTE      &none    &kp HOME  &kp UP    &kp END    &kp PG_UP
-        &kp LGUI   &kp LALT    &kp LCTRL  &kp LSHFT   &kp C_VOL_UP    &none    &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN
-&trans  &kp DEL    &none       &caps_word &none       &kp C_VOL_DN    &none    &none     &none     &none      &none      &kp PSCRN
+        &kp LG(A)  &kp LALT    &kp LCTRL  &kp LSHFT   &kp C_VOL_UP    &none    &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN
+&trans  &kp LG(Z)  &kp LG(X)   &kp LG(C)  &kp LG(V)   &kp C_VOL_DN    &none    &none     &none     &none      &none      &kp PSCRN
+                               &trans     &trans      &trans          &mo SYS  &trans    &trans
+            >;
+        };
+
+        nav_win_layer {
+            display-name = "NAV";
+            // Same as nav_layer; only the edit cluster differs (Ctrl instead of Cmd).
+
+            bindings = <
+        &kp ESC    &kp C_PREV  &kp C_PP   &kp C_NEXT  &kp K_MUTE      &none    &kp HOME  &kp UP    &kp END    &kp PG_UP
+        &kp LC(A)  &kp LALT    &kp LCTRL  &kp LSHFT   &kp C_VOL_UP    &none    &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN
+&trans  &kp LC(Z)  &kp LC(X)   &kp LC(C)  &kp LC(V)   &kp C_VOL_DN    &none    &none     &none     &none      &none      &kp PSCRN
                                &trans     &trans      &trans          &mo SYS  &trans    &trans
             >;
         };
@@ -223,8 +268,9 @@
             //
             // BT profiles select the DONGLE's host connections.
             // RESET/BOOT act on whichever half (or dongle) the key is pressed on.
+            // WINTG toggles Windows mode (OLED layer name shows MAC/WIN).
             //
-            //       | RESET | BTCLR | OUTTG | none  | none  |   | none  | none  | none  | none  | none  |
+            //       | RESET | BTCLR | OUTTG | none  | none  |   | WINTG | none  | none  | none  | none  |
             //       |-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------|
             //       | BOOT  |  BT0  |  BT1  |  BT2  |  BT3  |   | none  | none  | none  | none  | none  |
             // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
@@ -234,10 +280,10 @@
             //                         |-------+-------+-------|   |-------+-------+-------|
 
             bindings = <
-        &sys_reset   &bt BT_CLR    &out OUT_TOG  &none         &none           &none  &none  &none  &none  &none
-        &bootloader  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3    &none  &none  &none  &none  &none
-&trans  &none        &none         &none         &none         &none           &none  &none  &none  &none  &none  &trans
-                                   &trans        &trans        &trans          &trans &trans &trans
+        &sys_reset   &bt BT_CLR    &out OUT_TOG  &none         &none           &tog WIN  &none  &none  &none  &none
+        &bootloader  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3    &none     &none  &none  &none  &none
+&trans  &none        &none         &none         &none         &none           &none     &none  &none  &none  &none  &trans
+                                   &trans        &trans        &trans          &trans    &trans &trans
             >;
         };
     };
@@ -245,8 +291,13 @@
     conditional_layers {
         compatible = "zmk,conditional-layers";
 
-        activate_sys {
+        activate_sys_mac {
             if-layers = <NAV FN>;
+            then-layer = <SYS>;
+        };
+
+        activate_sys_win {
+            if-layers = <NAV_WIN FN>;
             then-layer = <SYS>;
         };
     };
