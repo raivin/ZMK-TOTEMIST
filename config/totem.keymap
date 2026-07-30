@@ -8,8 +8,9 @@
 #define NAV     2
 #define NAV_WIN 3
 #define SYM     4
-#define FN      5
-#define SYS     6
+#define NUM     5
+#define FN      6
+#define SYS     7
 
 // Key positions (TOTEM, 38 keys)
 //
@@ -113,9 +114,16 @@
             require-prior-idle-ms = <100>;
         };
 
-        combo_plus {
-            bindings = <&kp EQUAL>;
+        combo_minus {
+            // top-right corner, like the number row: ... 0 - =
+            bindings = <&kp MINUS>;
             key-positions = <8 9>;
+            require-prior-idle-ms = <100>;
+        };
+
+        combo_equal {
+            bindings = <&kp EQUAL>;
+            key-positions = <18 19>;
             require-prior-idle-ms = <100>;
         };
 
@@ -154,16 +162,16 @@
             //       |-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------|
             //       | GUI A | ALT S | CTL D | SFT F |   G   |   |   H   | SFT J | CTL K | ALT L | GUI ; |
             // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
-            // | SFT - |   Z   |   X   |   C   |   V   |   B   |   |   N   |   M   |   ,   |   .   |   /   | SFT ' |
+            // | SFT _ |   Z   |   X   |   C   |   V   |   B   |   |   N   |   M   |   ,   |   .   |   /   | SFT ' |
             // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
-            //                         |FN ESC |SYM TAB|NAV SPC|   |NAV BSP|SYM RET|FN DEL |
+            //                         |FN ESC |NUM TAB|NAV SPC|   |NAV BSP|SYM RET|FN DEL |
             //                         |-------+-------+-------|   |-------+-------+-------|
 
             bindings = <
                 &kp Q        &kp W        &kp E         &kp R         &kp T           &kp Y        &kp U         &kp I         &kp O        &kp P
                 &hml LGUI A  &hml LALT S  &hml LCTRL D  &hml LSHFT F  &kp G           &kp H        &hmr RSHFT J  &hmr RCTRL K  &hmr RALT L  &hmr RGUI SEMI
-&ps LSHFT MINUS  &kp Z        &kp X        &kp C         &kp V         &kp B           &kp N        &kp M         &kp COMMA     &kp DOT      &kp FSLH        &ps RSHFT SQT
-                                           &lt FN ESC    &lt SYM TAB   &lt NAV SPACE   &lt NAV BSPC &lt SYM ENTER &lt FN DEL
+&ps LSHFT UNDER  &kp Z        &kp X        &kp C         &kp V         &kp B           &kp N        &kp M         &kp COMMA     &kp DOT      &kp FSLH        &ps RSHFT SQT
+                                           &lt FN ESC    &lt NUM TAB   &lt NAV SPACE   &lt NAV BSPC &lt SYM ENTER &lt FN DEL
             >;
         };
 
@@ -240,6 +248,29 @@
         &kp N1     &kp N2    &kp N3     &kp N4     &kp N5       &kp N6     &kp N7    &kp N8    &kp N9    &kp N0
 &trans  &kp GRAVE  &kp BSLH  &kp UNDER  &kp MINUS  &kp EQUAL    &kp PLUS   &kp LBRC  &kp RBRC  &kp LBKT  &kp RBKT  &trans
                              &trans     &gif       &mo SYS      &trans     &trans    &trans
+            >;
+        };
+
+        num_layer {
+            display-name = "NUM";
+            //
+            // Right-hand numpad (hold TAB). Left hand stays transparent so base
+            // letters and home-row mods keep working (A-hold + digit = Cmd/Ctrl+digit).
+            //
+            //       | trans | trans | trans | trans | trans |   | none  |   7   |   8   |   9   | none  |
+            //       |-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------|
+            //       | trans | trans | trans | trans | trans |   | none  |   4   |   5   |   6   |   :   |
+            // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
+            // | trans | trans | trans | trans | trans | trans |   |   0   |   1   |   2   |   3   |   .   | trans |
+            // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
+            //                         | trans | trans | trans |   | trans | trans | trans |
+            //                         |-------+-------+-------|   |-------+-------+-------|
+
+            bindings = <
+        &trans  &trans  &trans  &trans  &trans     &none   &kp N7  &kp N8  &kp N9  &none
+        &trans  &trans  &trans  &trans  &trans     &none   &kp N4  &kp N5  &kp N6  &kp COLON
+&trans  &trans  &trans  &trans  &trans  &trans     &kp N0  &kp N1  &kp N2  &kp N3  &kp DOT    &trans
+                        &trans  &trans  &trans     &trans  &trans  &trans
             >;
         };
 
