@@ -206,27 +206,28 @@
             //       |-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------|
             //       |SEL ALL|  ALT  |  CTL  |  SFT  | VOL + |   | none  | LEFT  | DOWN  | RIGHT | PG DN |
             // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
-            // | trans | UNDO  |  CUT  | COPY  | PASTE | VOL - |   | none  | none  | none  | none  | none  | PSCRN |
+            // | SHOT  | UNDO  |  CUT  | COPY  | PASTE | VOL - |   | none  | none  | none  | none  | none  | PSCRN |
             // |-------+-------+-------+-------+-------+-------|   |-------+-------+-------+-------+-------+-------|
             //                         | trans | trans | trans |   |  SYS  | trans | trans |
             //                         |-------+-------+-------|   |-------+-------+-------|
+            // SHOT (outer left) = region screenshot: Cmd+Shift+4 here, Win+Shift+S on NAV_WIN
 
             bindings = <
-        &kp ESC    &kp C_PREV  &kp C_PP   &kp C_NEXT  &kp K_MUTE      &none    &kp HOME  &kp UP    &kp END    &kp PG_UP
-        &kp LG(A)  &kp LALT    &kp LCTRL  &kp LSHFT   &kp C_VOL_UP    &none    &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN
-&trans  &kp LG(Z)  &kp LG(X)   &kp LG(C)  &kp LG(V)   &kp C_VOL_DN    &none    &none     &none     &none      &none      &kp PSCRN
+        &kp ESC         &kp C_PREV  &kp C_PP   &kp C_NEXT  &kp K_MUTE      &none    &kp HOME  &kp UP    &kp END    &kp PG_UP
+        &kp LG(A)       &kp LALT    &kp LCTRL  &kp LSHFT   &kp C_VOL_UP    &none    &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN
+&kp LG(LS(N4))  &kp LG(Z)  &kp LG(X)   &kp LG(C)  &kp LG(V)   &kp C_VOL_DN    &none    &none     &none     &none      &none      &kp PSCRN
                                &trans     &trans      &trans          &mo SYS  &trans    &trans
             >;
         };
 
         nav_win_layer {
             display-name = "NAV";
-            // Same as nav_layer; only the edit cluster differs (Ctrl instead of Cmd).
+            // Same as nav_layer; only the edit cluster and screenshot key differ.
 
             bindings = <
-        &kp ESC    &kp C_PREV  &kp C_PP   &kp C_NEXT  &kp K_MUTE      &none    &kp HOME  &kp UP    &kp END    &kp PG_UP
-        &kp LC(A)  &kp LALT    &kp LCTRL  &kp LSHFT   &kp C_VOL_UP    &none    &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN
-&trans  &kp LC(Z)  &kp LC(X)   &kp LC(C)  &kp LC(V)   &kp C_VOL_DN    &none    &none     &none     &none      &none      &kp PSCRN
+        &kp ESC        &kp C_PREV  &kp C_PP   &kp C_NEXT  &kp K_MUTE      &none    &kp HOME  &kp UP    &kp END    &kp PG_UP
+        &kp LC(A)      &kp LALT    &kp LCTRL  &kp LSHFT   &kp C_VOL_UP    &none    &kp LEFT  &kp DOWN  &kp RIGHT  &kp PG_DN
+&kp LG(LS(S))  &kp LC(Z)  &kp LC(X)   &kp LC(C)  &kp LC(V)   &kp C_VOL_DN    &none    &none     &none     &none      &none      &kp PSCRN
                                &trans     &trans      &trans          &mo SYS  &trans    &trans
             >;
         };
