@@ -1,0 +1,9 @@
+/*
+ * The upstream totem shield does not mark the key matrix as a wake source, so
+ * deep sleep disconnects the matrix GPIOs and no keypress can wake the half
+ * (reset button only). ZMK_SLEEP in totem_right.conf requires this.
+ */
+
+&kscan0 {
+    wakeup-source;
+};
